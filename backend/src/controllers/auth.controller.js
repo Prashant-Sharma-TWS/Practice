@@ -4,7 +4,6 @@ const newToken = require("../configs/jwt");
 
 router.post("/register", async (req, res) => {
   try {
-    await User.deleteMany();
     // 1. check if user is registered or not
     let user = await User.exists({ email: req.body.email });
     // 2. if registered => send 404
