@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const authenticate = require("../middlewares/authenticate");
+const authorise = require("../middlewares/authorise");
 const Product = require("../models/product.model");
 
 router
   .route("/")
-  .post(authenticate, async (req, res) => {
+  .post(authenticate, authorise(["seller"]), async (req, res) => {
     const product = await Product.create(req.body);
     res.status(200).json({ product, message: `product created.` });
   })
@@ -21,7 +22,7 @@ router
     const product = await Product.findById(req.params.productId);
     res.status(200).json({ product, message: `getting a single product.` });
   })
-  .patch(authenticate, async (req, res) => {
+  .patch(authenticate, authorise(["seller"]), async (req, res) => {
     const product = await Product.findByIdAndUpdate(
       req.params.productId,
       req.body,
@@ -31,7 +32,7 @@ router
     );
     res.status(200).json({ product, message: `product updated successfull.` });
   })
-  .delete(authenticate, async (req, res) => {
+  .delete(authenticate, authorise(["seller"]), async (req, res) => {
     const user = await Product.findByIdAndDelete(req.params.productId);
     res.status(200).json({ user, message: `product deleted successfully.` });
   });

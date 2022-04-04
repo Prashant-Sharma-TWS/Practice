@@ -18,6 +18,9 @@ const authenticate = async (req, res, next) => {
     const token = accesstoken.split(" ")[1];
     try {
       const user = getUserByToken(token);
+
+      req.user = user.user;
+
       return next();
     } catch (e) {
       return res.status(404).json({ status: 404, message: `Token is wrong.` });
