@@ -1,22 +1,24 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 
 // express app
 const app = express();
 
 const userController = require("./controllers/user.controller");
-const { logger } = require("./middlewares/middleware");
+const authController = require("./controllers/auth.controller");
 
 // middlewares
-app.use(express.json()); // for parsing json body
-app.use(express.urlencoded({ extended: true })); // for parsing form body
-app.use(logger);
-
-// rendering file on filename route => /gotostatic.html
-app.use(express.static("public"));
+app.use(express.json());
+app.use(cors());
 
 app.use("/users", userController);
+app.use("/auth", authController);
 
-app.listen(process.env.PORT, () => {
+// connecting to mongodb with mongoose
+const connect = require("./configs/connect.mongoose");
+
+app.listen(process.env.PORT, async () => {
+  await connect();
   console.log("server is live at: ", process.env.PORT);
 });

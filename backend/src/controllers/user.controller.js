@@ -1,33 +1,35 @@
 const router = require("express").Router();
+const User = require("../models/user.model");
 
-router
-  .route("/")
-  .get((req, res) => {
-    res.status(200).json(`getting user`);
-  })
-  .post((req, res) => {
-    res.status(200).json(`posting user`);
-  });
+router.get("/", async (req, res) => {
+  const users = await User.find();
+  res.status(200).json({ message: `Got all the user`, users });
+});
 
 router
   .route("/:userId")
-  .get((req, res) => {
-    res.status(200).json(`getting user by id ${req.params.userId}`);
+  .get(async (req, res) => {
+    console.log(req.user);
+    const users = await User.find();
+    res.status(200).json({ users });
   })
-  .patch((req, res) => {
-    res.status(200).json(`updating user by id ${req.params.userId}`);
+  .patch(async (req, res) => {
+    const users = await User.find();
+    res.status(200).json({ users });
   })
-  .delete((req, res) => {
-    res.status(200).json(`deleting user by id ${req.params.userId}`);
+  .delete(async (req, res) => {
+    const users = await User.findByIdAndDelete();
+    res.status(200).json({ users });
   });
 
-//  param middleware => saves from writing code again & again
-router.param("userId", (req, res, next, userId) => {
-  console.log(`using the param middleware for user ${userId}`);
+//  param middleware
+router.param("userId", async (req, res, next, userId) => {
+  // finding the user
+  const user = await User.findById(userId);
+  req.user = user;
 
-  const users = ["first user", "second user", "third user"];
-  req.users = users[userId - 1];
-  console.log(req.users);
+  console.log("param middleware");
+
   next();
 });
 
