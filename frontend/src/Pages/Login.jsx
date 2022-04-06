@@ -48,6 +48,10 @@ export default function Login({ setUser }) {
     window.open("http://localhost:8000/auth/google", "_self");
   };
 
+  const handleFacebook = () => {
+    window.open("http://localhost:8000/auth/facebook", "_self");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -125,6 +129,15 @@ export default function Login({ setUser }) {
             onClick={handleGoogle}
           >
             Login with Google
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="outlined"
+            sx={{ mt: 1, mb: 2 }}
+            onClick={handleFacebook}
+          >
+            Login with Facebook
           </Button>
         </Box>
       </Container>

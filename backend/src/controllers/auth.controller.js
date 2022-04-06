@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
 const newToken = require("../configs/jwt");
-const passport = require("../configs/google-oauth");
+const passport = require("../configs/oauth");
 
 router.post("/register", async (req, res) => {
   try {
@@ -62,6 +62,7 @@ router.get("/login/check", async (req, res) => {
   return res.status(200).json({ token, user, message: "Login successfull" });
 });
 
+// google-oauth
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
@@ -70,7 +71,6 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    // successRedirect: "http://localhost:3000",
     failureRedirect: "/auth/google/failure",
   }),
   (req, res) => {
@@ -79,6 +79,23 @@ router.get(
 );
 
 router.get("/google/failure", (req, res) => {
+  return res.status(400).send("Authentication failed!");
+});
+
+// facebook-oauth
+router.get("/facebook", passport.authenticate("facebook"));
+
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: "/auth/facebook/failure",
+  }),
+  (req, res) => {
+    return res.redirect(`http://localhost:3000?code=${req.token}`);
+  }
+);
+
+router.get("/facebook/failure", (req, res) => {
   return res.status(400).send("Authentication failed!");
 });
 
