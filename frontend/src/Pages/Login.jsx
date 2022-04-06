@@ -45,12 +45,7 @@ export default function Login({ setUser }) {
   };
 
   const handleGoogle = () => {
-    let windowFeatures = "left=50%,top=100,width=500,height=500";
-    window.open(
-      "http://localhost:8000/auth/google",
-      "mozillaWindow",
-      windowFeatures
-    );
+    window.open("http://localhost:8000/auth/google", "_self");
   };
 
   return (

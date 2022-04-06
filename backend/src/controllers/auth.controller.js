@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user.model");
 const newToken = require("../configs/jwt");
+const passport = require("../configs/google-oauth");
 
 router.post("/register", async (req, res) => {
   try {
@@ -47,6 +48,38 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     return res.status(500).json({ status: 500, message: e.message });
   }
+});
+
+// google login
+router.get("/login/check", async (req, res) => {
+  // 1. check if user is present in req
+  if (!req.user) {
+    return res.status(400).json({ status: 400, message: "Login failed." });
+  }
+  // 2. if present => send token
+  const user = await User.findOne({ email: req.user.email });
+  const token = newToken(req.user);
+  return res.status(200).json({ token, user, message: "Login successfull" });
+});
+
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    // successRedirect: "http://localhost:3000",
+    failureRedirect: "/auth/google/failure",
+  }),
+  (req, res) => {
+    return res.redirect(`http://localhost:3000?code=${req.token}`);
+  }
+);
+
+router.get("/google/failure", (req, res) => {
+  return res.status(400).send("Authentication failed!");
 });
 
 module.exports = router;

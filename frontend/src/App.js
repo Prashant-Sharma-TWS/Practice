@@ -5,6 +5,7 @@ import {
   Routes,
   useNavigate,
   useLocation,
+  useParams,
 } from "react-router-dom";
 import "./App.css";
 import { Home } from "./Pages/Home";
@@ -12,6 +13,8 @@ import Login from "./Pages/Login";
 import { Button, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  loginRequest,
+  loginSuccess,
   logoutFailure,
   logoutRequest,
   logoutSuccess,
@@ -23,10 +26,14 @@ function App() {
   const isLoading = useSelector((state) => state.auth.isLoading);
   const [user, setUser] = useState("User");
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (search.startsWith("?code=")) {
+      dispatch(loginRequest());
+      dispatch(loginSuccess(search.split("=")[1]));
+    }
     if (accesstoken) {
       if (pathname === "/login") navigate("/");
       else navigate(`${pathname}`);
