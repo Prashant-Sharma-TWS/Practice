@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="infinite-scrolling-container" infinite-scrolling-container>
+      <div class="data"></div>
+      <div class="loader"></div>
+    </div>
+    <template scrolling-template>
+      <div class="card" data-card>
+        <div class="id" data-id></div>
+        <div class="name" data-name></div>
+        <div class="email" data-email></div>
+      </div>
+    </template>
+  </body>
+</html>
