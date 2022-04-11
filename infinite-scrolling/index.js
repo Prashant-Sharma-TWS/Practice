@@ -27,17 +27,34 @@ const getData = async function () {
 getData();
 
 const defaultText = document.querySelector(".default");
+const debounceText = document.querySelector(".debounce");
 window.addEventListener("scroll", (e) => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
-  if (scrollTop + clientHeight >= scrollHeight - 5) {
-    console.log("end of page");
-    pageNumber++;
-    getData();
-  }
-
-  incrementCount(defaultText);        // default behaviour of scrolling
+  incrementCount(defaultText); // default behaviour of scrolling
+  updateDebounceText(scrollTop, scrollHeight, clientHeight);
 });
+
+// Debounce of scrolling
+const updateDebounceText = debounce((scrollTop, scrollHeight, clientHeight) =>
+  incrementCount(debounceText)
+);
+function debounce(cb, delay = 1000) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      cb(...args);
+
+      const [scrollTop, scrollHeight, clientHeight] = args;
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        console.log("end of page");
+        pageNumber++;
+        getData();
+      }
+    }, delay);
+  };
+}
 
 // To see how many times function are called
 function incrementCount(element) {
