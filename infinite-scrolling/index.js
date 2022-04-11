@@ -3,20 +3,6 @@ const container = document.querySelector("[infinite-scrolling-container]");
 
 let data = [],
   pageNumber = 1;
-let observer;
-
-const lastElement = (card) => {
-  if (observer) observer.disconnect();
-  observer = new IntersectionObserver(async (entries) => {
-    if (entries[0].isIntersecting) {
-      pageNumber++;
-      container.children[1].textContent = `Loading...`;
-      await setTimeout(getData, 300);
-      //   container.children[1].textContent = ``;
-    }
-  });
-  observer.observe(card);
-};
 
 const getData = async function () {
   const response = await fetch(
@@ -36,11 +22,24 @@ const getData = async function () {
     email.textContent = item.email;
 
     container.children[0].append(card);
-    if (data.length === index + 1) lastElement(card);
   });
 };
 getData();
 
-container.addEventListener("scroll", (e) => {
-  console.log(e);
+const defaultText = document.querySelector(".default");
+window.addEventListener("scroll", (e) => {
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  if (scrollTop + clientHeight >= scrollHeight - 5) {
+    console.log("end of page");
+    pageNumber++;
+    getData();
+  }
+
+  incrementCount(defaultText);        // default behaviour of scrolling
 });
+
+// To see how many times function are called
+function incrementCount(element) {
+  element.textContent = (parseInt(element.innerText) || 0) + 1;
+}

@@ -4,13 +4,16 @@
   box-sizing: border-box;
 }
 
+.show-count {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
 .infinite-scrolling-container {
-  width: 85%;
-  height: 80vh;
+  width: 100%;
   margin: 20px auto;
   padding: 10px;
-  border: 1px solid #ddd;
-  overflow-y: scroll;
 }
 
 .card {
