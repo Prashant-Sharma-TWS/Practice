@@ -28,31 +28,45 @@ getData();
 
 const defaultText = document.querySelector(".default");
 const debounceText = document.querySelector(".debounce");
+const throttleText = document.querySelector(".throttle");
 window.addEventListener("scroll", (e) => {
   const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
 
   incrementCount(defaultText); // default behaviour of scrolling
-  updateDebounceText(scrollTop, scrollHeight, clientHeight);
+  updateDebounceText(); // debounce behaviour of scrolling
+  updateThrottleText(scrollTop, scrollHeight, clientHeight); // throttle behaviour of scrolling
 });
 
 // Debounce of scrolling
-const updateDebounceText = debounce((scrollTop, scrollHeight, clientHeight) =>
-  incrementCount(debounceText)
-);
+const updateDebounceText = debounce(() => incrementCount(debounceText));
 function debounce(cb, delay = 1000) {
   let timeout;
   return (...args) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       cb(...args);
+    }, delay);
+  };
+}
 
+// Throttle of scrolling
+const updateThrottleText = throttle(() => incrementCount(throttleText));
+function throttle(cb, wait = 1000) {
+  let lastCall = 0,
+    timeout;
+
+  return (...args) => {
+    clearTimeout(timeout);
+    if (Date.now() - lastCall > wait) {
       const [scrollTop, scrollHeight, clientHeight] = args;
       if (scrollTop + clientHeight >= scrollHeight - 5) {
-        console.log("end of page");
-        pageNumber++;
-        getData();
+        timeout = setTimeout(() => {
+          cb(...args);
+          pageNumber++;
+          getData();
+        }, wait);
       }
-    }, delay);
+    }
   };
 }
 
