@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    font-family: 'Assistant', sans-serif;
+    --max-width-tag-area: 1520px;
+    --max-width-gallery-area: 1520px;
+    background-color: #2e3035
+}
+
+.button-green {
+    cursor: pointer;
+    height: 35px;
+    min-width: 108px;
+    padding: 7px 14px 10px 9px;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: #1bb76e;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.button-green:hover {
+    background-color: #38c583;
+}
+
+.button-purple {
+    cursor: pointer;
+    height: 35px;
+    padding: 0px 10px 0px 9px;
+    border-radius: 3px;
+    font-weight: 700;
+    background-color: #6432f9;
+    color: #fff;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 100px;
+}
+
+#gotoTop {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #464b57;
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

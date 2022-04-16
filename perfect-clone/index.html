@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="./Images/small-logo.png"
+      type="image/x-icon"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./Styles/gallery.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Imgur: The magic of the Internet</title>
+  </head>
+
+  <body>
+    <nav id="navImportContainer"></nav>
+
+    <section class="top-section" id="topSection">
+      <div>
+        Is it GIF or GIF? Either way, we've got the best of them. EXPLORE TAGS
+      </div>
+      <div class="tags-area" style="width: 85%; margin: auto">
+        <div>
+          <span>EXPLORE TAGS</span
+          ><span id="showMoreTags" style="cursor: pointer">MORE TAGS +</span>
+        </div>
+        <div class="tags-container" id="tagsContainer"></div>
+      </div>
+    </section>
+    <div class="gallery-wrapper">
+      <div class="gallery-top-bar">
+        <div>
+          <div class="dropdown-button-container">
+            <span>MOST VIRAL</span>
+            <span
+              ><img src="./Images/dropdown_icon.svg" alt="" width="24px"
+            /></span>
+          </div>
+        </div>
+        <div>
+          <div class="dropdown-button-container">
+            <span>POPULAR</span>
+            <span
+              ><img src="./Images/dropdown_icon.svg" alt="" width="24px"
+            /></span>
+          </div>
+        </div>
+      </div>
+      <div id="galleryContainer"></div>
+      <template scrolling-template>
+        <div class="gallery-img-card" data-card></div>
+      </template>
+    </div>
+    <div id="pageEnd" style="padding-top: '60px'"></div>
+
+    <span id="gotoTop" onclick="window.scrollTo({top:0, behavior: 'smooth'})">
+      <img src="./Images/up_arrow_icon.svg" alt="go up" width="16" />
+    </span>
+
+    <script type="module">
+      import {
+        setNavigation,
+        options2,
+        callback2,
+        navObserver,
+        setFooter,
+      } from "./Components/navigation.js";
+
+      setNavigation(
+        document.getElementById("navImportContainer"),
+        "../Images/top_banner.png"
+      );
+      setFooter();
+
+      import {
+        getGalleryImages,
+        setGalleryImages,
+        pageEnd,
+        galleryObserverCallback,
+        galleryObserverOptions,
+        galleryObserver,
+        galleryTarget,
+      } from "./Components/gallery.js";
+      setGalleryImages();
+    </script>
+  </body>
+</html>
